@@ -2,9 +2,9 @@ package com.milunas.scaladdd.library.lending.book.infrastructure
 
 import com.milunas.scaladdd.library.lending.book.domain.{AvailableBook, Book}
 
-class BookRepository extends FindAvailableBook {
+class BookRepository {
+  def findBy(bookId: Int): Either[Throwable, AvailableBook] = ???
 
-  def save(book: Book) = ???
+  def save(book: Book): Either[Throwable, Unit] = ???
 
-  override def by(bookId: Int): Either[Throwable, AvailableBook] = ???
 }
