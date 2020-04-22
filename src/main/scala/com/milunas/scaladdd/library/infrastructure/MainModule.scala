@@ -20,7 +20,7 @@ class MainModule {
 
   def program(app: AppConfig, transactor: Transactor[IO])(implicit concurrentEffect: ConcurrentEffect[IO], timer: Timer[IO]): IO[Unit] = {
     for {
-      bookModule <- BookModule.createSync(transactor)
+      bookModule <- BookModule.createSync()
       patronModule <- PatronModule.createSync(transactor, bookModule.bookRepository)
       api = new ApiConfig(patronModule.routes)
       _ <- BlazeServerBuilder[IO].bindHttp(app.http.port, app.http.host)

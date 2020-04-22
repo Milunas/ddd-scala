@@ -5,6 +5,7 @@ import doobie.Query0
 import doobie.implicits._
 
 object PatronSQL {
+
   def select(id: Long): Query0[Patron] = sql"""
     SELECT p.*, b.*
     FROM patrons AS p

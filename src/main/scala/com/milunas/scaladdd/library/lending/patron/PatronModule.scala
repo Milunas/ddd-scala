@@ -8,8 +8,8 @@ import com.milunas.scaladdd.library.lending.patron.web.PatronRouter
 import doobie.util.transactor.Transactor
 
 class PatronModule(transactor: Transactor[IO], bookRepository: BookRepository) {
-  lazy val patrons = new PatronRepository(transactor)
-  lazy val placingOnHold = new PlacingOnHold(patrons, bookRepository)
+  lazy val patrons = new PatronRepository()
+  lazy val placingOnHold = new PlacingOnHold(patrons, bookRepository, transactor)
   lazy val routes = new PatronRouter(placingOnHold)
 }
 

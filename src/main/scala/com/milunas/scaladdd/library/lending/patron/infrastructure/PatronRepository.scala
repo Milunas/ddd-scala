@@ -3,15 +3,12 @@ package com.milunas.scaladdd.library.lending.patron.infrastructure
 import cats.effect.IO
 import com.milunas.scaladdd.library.lending.patron.domain.Patron
 import com.milunas.scaladdd.library.lending.patron.infrastructure.exception.PatronNotFound
-import doobie.implicits._
-import cats.implicits._
-import doobie.util.transactor.Transactor
+import doobie.free.connection.ConnectionIO
 
-class PatronRepository(private val transactor:Transactor[IO]) {
+class PatronRepository() {
 
-  def findBy(patronId: Long): IO[Patron] = PatronSQL.select(patronId)
+  def findBy(patronId: Long): ConnectionIO[Patron] = PatronSQL.select(patronId)
     .option
-    .transact(transactor)
     .map(maybe => maybe.toRight(new PatronNotFound()))
-    .flatMap(maybe => maybe.fold(IO.raiseError, IO.pure))
+    .flatMap(maybe => maybe.fold(IO.raiseError, IO.pure).to[ConnectionIO])
 }

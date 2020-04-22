@@ -1,16 +1,7 @@
 package com.milunas.scaladdd.library.lending.book.domain
 
-import java.time.Instant
+case class Book(id: Long, var status: String, onHoldByPatron: Long, onHoldTill: String) {
+  def canBePlaced(book: Book): Boolean = book.status == "Available"
 
-import com.milunas.scaladdd.library.lending.book.domain.BookStatus.Status
-
-case class Book(id: Long,
-                private var status: Status,
-                private var onHoldByPatron: Long,
-                private var onHoldTill: Instant)
-
-object Book {
-  def canBePlaced(book: Book): Boolean = book.status == BookStatus.AVAILABLE
-
-  def place(patronId: Long, book: Book) = book.status = BookStatus.ON_HOLD
+  def place(patronId: Long, book: Book) = book.status = "On_Hold"
 }
